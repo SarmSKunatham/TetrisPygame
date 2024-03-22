@@ -55,5 +55,39 @@ python src/app.py
 - The game can be restarted at any time by clicking the "Restart" button.
 - Return to the main menu by clicking the "Main Menu" button during gameplay.
 
+## Project Structure
+The Tetris game is structured into several key components, each responsible for a specific aspect of the game's functionality. Here's an overview of the main files and directories in this project:
+
+### Main Files
+- `app.py`: The entry point of the game. It initializes the game application and starts the game loop.
+- `tetris_board.py`: Contains the TetrisBoard class that manages the game state, including the grid, current piece, score, and game-over condition.
+- `tetromino.py`: Defines the Tetromino class, representing the individual Tetris pieces, their shapes, colors, and rotation logic.
+- `button.py`: Implements a simple Button class used for creating interactive buttons in the game's UI.
+- `constants.py`: Stores various constants used throughout the game, such as screen dimensions, colors, and tetromino shapes.
+
+### Key Components
+Tetris Application (`TetrisApp` class in `testris_app.py`)
+The `TetrisApp` class orchestrates the game's main loop, handling events (e.g., keyboard inputs, button clicks), updating the game state, and rendering the game screen. It also manages transitions between different game states, such as the main menu, playing state, and game-over screen.
+
+Game Board and Logic (`TetrisBoard` class in `tetris_board`.py)
+This class is responsible for the core gameplay logic, including managing the grid, current falling tetromino, detecting collisions, clearing completed lines, and checking for game over conditions.
+
+Tetromino Pieces (`Tetromino` class in `tetromino.py`)
+Represents the individual Tetris pieces. It stores information about the piece's shape, color, and current rotation state. The class provides methods for rotating the tetromino.
+
+UI Components (`Button` class in `button.py`)
+The Button class is a utility class used to create interactive buttons in the game's UI, such as "Start" and "Restart" buttons. It handles rendering the button and detecting clicks.
+
+### How It Works
+1. **Initialization**: The game initializes Pygame, creates the main game window, and loads the initial game state.
+2. **Game Loop**: The game enters a loop where it continuously checks for user input, updates the game state based on logic in TetrisBoard, and renders the current state to the screen.
+3. **User Input**: The game responds to keyboard inputs for controlling the tetromino pieces and mouse inputs for interacting with UI buttons.
+4. **Game Over**: When the game detects a game-over condition, it displays a game-over screen and gives the option to restart or return to the main menu.
+
+## Example
+![Main menu](assets/main_menu.png)
+
+![Game play](assets/gameplay.png)
+
 ## Contributing
 Contributions to the TetrisPygame project are welcome! 
