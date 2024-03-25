@@ -36,8 +36,11 @@ class TetrisApp:
     
     def save_score(self):
         """Save the highest score to a file."""
-        with open(SCORE_FILE, 'w') as file:
-            file.write(str(max(self.highest_score, self.game.score)))
+        try:
+            with open(SCORE_FILE, 'w') as file:
+                file.write(str(self.highest_score))
+        except FileNotFoundError:
+            pass
     
     def run(self):
         """Run the main game loop."""
