@@ -1,6 +1,6 @@
 import pygame
 from constants import WIDTH, HEIGHT, GRID_SIZE, BLACK, SCORE_FILE
-from tetris_board import TetrisBoard
+from tetris_board import TetrisBoard, LiteTetrisBoard, RegularTetrisBoard
 from button import Button
 
 class TetrisApp:
@@ -22,8 +22,13 @@ class TetrisApp:
         self.fall_speed = 100  # milliseconds
         self.highest_score = self.load_score()
         self.restart_button = Button(WIDTH - 110, 10, 100, 40, "Restart", (117, 113, 94))
-        self.back_menu_button = Button(WIDTH - 270, 10, 150, 40, "Main Menu", (117, 113, 94))
-        self.start_button = Button(WIDTH // 2 - 50, HEIGHT // 2, 100, 50, "Start", (0, 128, 0))
+        self.back_menu_button = Button(WIDTH - 270, 10, 150, 40, "Main Menu", (117, 113, 94))        
+
+        #added buttons for selecting level
+        #different level generates different sizes of tetris board
+        self.start_button = Button(WIDTH // 2 + 50, HEIGHT // 2, 100, 50, "Deluxe", (0, 128, 0))
+        self.lite_level_button =  Button(WIDTH // 2 - 150, HEIGHT // 2, 100, 50, "Lite", (0, 128, 0))
+        self.regular_level_button =  Button(WIDTH // 2 - 50, HEIGHT // 2, 100, 50, "Regular", (0, 128, 0))
         self.show_menu = True
     
     def load_score(self):
@@ -62,6 +67,10 @@ class TetrisApp:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if self.restart_button.is_over(mouse_pos) and not self.show_menu:
                     self.reset_game()
+                elif self.lite_level_button.is_over(mouse_pos) and not self.show_menu:
+                    self.lite_game()
+                elif self.regular_level_button.is_over(mouse_pos) and not self.show_menu:
+                    self.regular_game()
                 elif self.back_menu_button.is_over(mouse_pos) and not self.show_menu:
                     self.show_menu = True  # Return to the main menu
                 elif self.start_button.is_over(mouse_pos) and self.show_menu:
@@ -129,6 +138,8 @@ class TetrisApp:
         """
         self.screen.fill(BLACK)
         self.start_button.draw(self.screen)
+        self.lite_level_button.draw(self.screen)
+        self.regular_level_button.draw(self.screen)
 
         # Display the highest score in the main menu
         font = pygame.font.Font(None, 36)
@@ -147,6 +158,10 @@ class TetrisApp:
                 mouse_pos = pygame.mouse.get_pos()
                 if self.start_button.is_over(mouse_pos):
                     self.reset_game()
+                elif self.lite_level_button.is_over(mouse_pos):
+                    self.lite_game()
+                elif self.regular_level_button.is_over(mouse_pos):
+                    self.regular_game()
 
     def reset_game(self):
         """
@@ -157,4 +172,22 @@ class TetrisApp:
         self.show_menu = False
         self.fall_speed = 100
 
+    def lite_game(self):
+        """
+        This is used for starting a new lite game from the main menu.
+        """
+        # self.game = TetrisBoard(int(2*WIDTH/4) // GRID_SIZE, HEIGHT // GRID_SIZE)
+        self.game = LiteTetrisBoard(int(2*WIDTH/4) // GRID_SIZE, HEIGHT // GRID_SIZE)
+        self.fall_time = 0
+        self.show_menu = False
+        self.fall_speed = 75
+
+    def regular_game(self):
+        """
+        This is used for starting a new regular game from the main menu.
+        """
+        self.game = RegularTetrisBoard(int(2*WIDTH/3) // GRID_SIZE, HEIGHT // GRID_SIZE)
+        self.fall_time = 0
+        self.show_menu = False
+        self.fall_speed = 125
 

@@ -2,7 +2,7 @@ import random
 import pygame
 from Queue import Queue
 from tetromino import Tetromino
-from constants import SHAPES, WIDTH, GRID_SIZE, BLACK, RED, GAME_OVER_HEIGHT
+from constants import SHAPES, WIDTH, GRID_SIZE, BLACK, RED, GAME_OVER_HEIGHT, HEIGHT
 
 class TetrisBoard:
     """
@@ -193,3 +193,91 @@ class TetrisBoard:
             for j, cell in enumerate(row):
                 if cell == 'O':
                     pygame.draw.rect(screen, self.current_piece.color, ((self.current_piece.x + j) * GRID_SIZE, (self.current_piece.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1))
+
+
+class LiteTetrisBoard(TetrisBoard):
+    """
+    This class manages another gamemode of Tetris named Tetris Lite
+    It copies the functionality of the class TetrisBoard but with a smaller board size
+    """
+    def __init__(self, width, height):
+        super().__init__(width, height)
+        
+
+    def draw_rectangle(self, screen, x = None, y = GAME_OVER_HEIGHT * GRID_SIZE, width = None, height = None, color = RED):
+        if x is None:
+            x = self.width * GRID_SIZE
+        if width is None:
+            width = WIDTH - self.width
+        if height is None:
+            height = HEIGHT - self.height
+        
+
+        pygame.draw.rect(screen, color, (x,y,width, height))
+    
+    def draw(self, screen):
+        """
+        Draws the current game state to the screen, including the grid,
+        the current piece, and the game over height line.
+        """
+        screen.fill(BLACK)
+        self.draw_game_over_height(screen)
+        
+        # Draw each cell in the grid
+        for y, row in enumerate(self.grid):
+            for x, cell in enumerate(row):
+                if cell:
+                    pygame.draw.rect(screen, cell, (x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1))
+        
+        # Draw the current Tetromino
+        for i, row in enumerate(self.current_piece.shape[self.current_piece.rotation % len(self.current_piece.shape)]):
+            for j, cell in enumerate(row):
+                if cell == 'O':
+                    pygame.draw.rect(screen, self.current_piece.color, ((self.current_piece.x + j) * GRID_SIZE, (self.current_piece.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1))
+        
+
+        self.draw_rectangle(screen)
+
+
+class RegularTetrisBoard(TetrisBoard):
+    """
+    This class manages another gamemode of Tetris named Tetris Lite
+    It copies the functionality of the class TetrisBoard but with a smaller board size
+    """
+    def __init__(self, width, height):
+        super().__init__(width, height)
+        
+
+    def draw_rectangle(self, screen, x = None, y = GAME_OVER_HEIGHT * GRID_SIZE, width = None, height = None, color = RED):
+        if x is None:
+            x = self.width * GRID_SIZE
+        if width is None:
+            width = WIDTH - self.width
+        if height is None:
+            height = HEIGHT - self.height
+        
+
+        pygame.draw.rect(screen, color, (x,y,width, height))
+    
+    def draw(self, screen):
+        """
+        Draws the current game state to the screen, including the grid,
+        the current piece, and the game over height line.
+        """
+        screen.fill(BLACK)
+        self.draw_game_over_height(screen)
+        
+        # Draw each cell in the grid
+        for y, row in enumerate(self.grid):
+            for x, cell in enumerate(row):
+                if cell:
+                    pygame.draw.rect(screen, cell, (x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1))
+        
+        # Draw the current Tetromino
+        for i, row in enumerate(self.current_piece.shape[self.current_piece.rotation % len(self.current_piece.shape)]):
+            for j, cell in enumerate(row):
+                if cell == 'O':
+                    pygame.draw.rect(screen, self.current_piece.color, ((self.current_piece.x + j) * GRID_SIZE, (self.current_piece.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1))
+        
+
+        self.draw_rectangle(screen)
