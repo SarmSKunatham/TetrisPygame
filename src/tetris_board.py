@@ -1,5 +1,6 @@
 import random
 import pygame
+from Queue import Queue
 from tetromino import Tetromino
 from constants import SHAPES, WIDTH, GRID_SIZE, BLACK, RED, GAME_OVER_HEIGHT
 
@@ -20,9 +21,12 @@ class TetrisBoard:
         self.width = width
         self.height = height
         self.grid = [[0 for _ in range(width)] for _ in range(height)] # Initialize an empty grid
-        self.current_piece = self.new_piece()
         self.game_over = False
         self.score = 0
+        self.queue = Queue(self.new_piece())
+        for _ in range(5): self.queue.add(self.new_piece())
+        self.current_piece = self.queue.next()
+        self.swapped = False
 
     def new_piece(self):
         """
@@ -73,7 +77,7 @@ class TetrisBoard:
             return True
         return False
 
-    def rotate(self):
+    def rotateCounterClockWise(self):
         """
         Attempts to rotate the current piece.
 
@@ -89,7 +93,15 @@ class TetrisBoard:
             self.current_piece.rotation = new_rotation
             return True
         return False
-
+    
+    def rotateClockwise(self):
+        new_rotation = (self.current_piece.rotation - 1) % len(self.current_piece.shape)
+        # Check if the new rotation would be valid
+        if self.valid_move(self.current_piece, 0, 0, 1):
+            # Apply the rotation
+            self.current_piece.rotation = new_rotation
+            return True
+        return False
 
     def clear_lines(self):
         """
@@ -114,6 +126,16 @@ class TetrisBoard:
                     self.game_over = True
                     return True
         return False
+    
+    def hold(self):
+        if self.swapped:
+            return
+        self.current_piece.x = self.width//2
+        self.current_piece.y = 0
+        self.current_piece = self.queue.swap(self.current_piece)
+        if self.current_piece == None:
+            self.current_piece = self.new_piece()
+        self.swapped = True
 
     def lock_piece(self, piece):
         """
@@ -126,8 +148,10 @@ class TetrisBoard:
                     self.grid[piece.y + i][piece.x + j] = piece.color
         lines_cleared = self.clear_lines()
         self.score += lines_cleared * 100
-        self.current_piece = self.new_piece()
+        self.current_piece = self.queue.next()
+        self.queue.add(self.new_piece())
         self.check_game_over() # Check if the game is over after locking the piece
+        self.swapped = False
 
     def update(self):
         """
@@ -138,7 +162,12 @@ class TetrisBoard:
             self.current_piece.y += 1
         else:
             self.lock_piece(self.current_piece)
+    def hardDrop(self):
+        while (self.valid_move(self.current_piece, 0, 1, 0)):
+            self.current_piece.y += 1
+        self.lock_piece(self.current_piece)
 
+        
     def draw_game_over_height(self, screen):
         """
         Draws a horizontal line on the screen indicating the GAME_OVER_HEIGHT.

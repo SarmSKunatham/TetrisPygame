@@ -78,8 +78,14 @@ class TetrisApp:
             self.game.move(1, 0)
         elif event.key == pygame.K_DOWN:
             self.game.move(0, 1)
-        elif event.key == pygame.K_UP:
-            self.game.rotate()
+        elif event.key == pygame.K_z:
+            self.game.rotateCounterClockWise()
+        elif event.key == pygame.K_x:
+            self.game.rotateClockwise()
+        elif event.key == pygame.K_c:
+            self.game.hold()
+        elif event.key == pygame.K_SPACE:
+            self.game.hardDrop()
 
     def update_game_state(self):
         """Update the game state, including falling pieces and game over checks."""
