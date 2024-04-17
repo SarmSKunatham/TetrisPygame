@@ -47,11 +47,14 @@ python src/app.py
 ```
 
 ## How to Play
-- Use the arrow keys to move and rotate the tetrominos.
+- Use the arrow and other keys to move and rotate the tetrominos.
 - Press the left arrow key to move the tetromino left.
 - Press the right arrow key to move the tetromino right.
 - Press the down arrow key to accelerate the tetromino downwards.
-- Press the up arrow key to rotate the tetromino.
+- Press the c key to hold and swap the tetromino.
+- Press the x key to rotate tetromino clockwise.
+- Press the z key to rotate tetromino counterclockwise.
+- Press the space key to fast drop tetromino to bottom.
 - The game can be restarted at any time by clicking the "Restart" button.
 - Return to the main menu by clicking the "Main Menu" button during gameplay.
 
