@@ -1,5 +1,5 @@
 # Screen dimensions
-WIDTH, HEIGHT = 450, 600
+WIDTH, HEIGHT = 450 + 200, 600
 SCREEN_WIDTH = WIDTH + 200
 SCREEN_HEIGHT = HEIGHT
 GRID_SIZE = 25
@@ -18,6 +18,8 @@ ORANGE = (255, 165, 0)  # Orange color
 PURPLE = (128, 0, 128)  # Purple color
 LIGHT_GREEN = (144, 238, 144)  # Light green color
 LIGHT_BLUE = (173, 216, 230)  # Light blue color
+DARK_GRAY = (50, 50, 50)  # This creates a dark gray color
+
 
 # Update the COLORS list to include these new colors
 COLORS = [CYAN, MAGENTA, YELLOW, ORANGE, PURPLE, LIGHT_GREEN, LIGHT_BLUE]

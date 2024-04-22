@@ -18,3 +18,11 @@ class Queue:
     @property
     def currentpiece(self):
         return self.q[0]
+    
+    @property
+    def upcoming(self):
+        return self.q  # Returns the list of upcoming pieces
+
+    @property
+    def held_piece(self):
+        return self.hold  # Returns the currently held piece

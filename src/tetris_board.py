@@ -2,7 +2,7 @@ import random
 import pygame
 from Queue import Queue
 from tetromino import Tetromino
-from constants import SHAPES, WIDTH, GRID_SIZE, BLACK, RED, GAME_OVER_HEIGHT, HEIGHT
+from constants import SHAPES, WIDTH, GRID_SIZE, BLACK, RED, GAME_OVER_HEIGHT, HEIGHT, DARK_GRAY
 
 class TetrisBoard:
     """
@@ -175,6 +175,39 @@ class TetrisBoard:
         line_y = GAME_OVER_HEIGHT * GRID_SIZE
         pygame.draw.line(screen, RED, (0, line_y), (WIDTH, line_y), 2)
 
+    def draw_next_and_hold(self, screen):
+        # Define starting positions for next and hold displays
+        next_start_x = self.width * GRID_SIZE + 10  # Adjust based on your screen setup
+        next_start_y = 100
+        hold_start_x = next_start_x
+        hold_start_y = 500 
+
+        # Font for labels
+        font = pygame.font.Font(None, 24)
+        next_label = font.render('Next:', True, (255, 255, 255))
+        hold_label = font.render('Hold:', True, (255, 255, 255))
+
+        # Draw 'Next' label and pieces
+        screen.blit(next_label, (next_start_x, next_start_y - 30))
+        for index, tetromino in enumerate(self.queue.upcoming[:3]):  # Display next 3 pieces
+            for i, row in enumerate(tetromino.shape[tetromino.rotation]):
+                for j, cell in enumerate(row):
+                    if cell == 'O':
+                        pygame.draw.rect(screen, tetromino.color,
+                                        (next_start_x + j * GRID_SIZE, next_start_y + i * GRID_SIZE + index * 100,
+                                        GRID_SIZE - 1, GRID_SIZE - 1))
+
+        # Draw 'Hold' label and piece
+        screen.blit(hold_label, (hold_start_x, hold_start_y - 30))
+        if self.queue.held_piece:
+            for i, row in enumerate(self.queue.held_piece.shape[self.queue.held_piece.rotation]):
+                for j, cell in enumerate(row):
+                    if cell == 'O':
+                        pygame.draw.rect(screen, self.queue.held_piece.color,
+                                        (hold_start_x + j * GRID_SIZE, hold_start_y + i * GRID_SIZE,
+                                        GRID_SIZE - 1, GRID_SIZE - 1))
+
+    
     def draw(self, screen):
         """
         Draws the current game state to the screen, including the grid,
@@ -203,6 +236,9 @@ class TetrisBoard:
             for j, cell in enumerate(row):
                 if cell == 'O':
                     pygame.draw.rect(screen, self.current_piece.color, ((outline.x + j) * GRID_SIZE, (outline.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1), width = 2)
+        
+        # Call to draw next and hold pieces
+        self.draw_next_and_hold(screen)
 
 class LiteTetrisBoard(TetrisBoard):
     """
@@ -213,7 +249,7 @@ class LiteTetrisBoard(TetrisBoard):
         super().__init__(width, height)
         
 
-    def draw_rectangle(self, screen, x = None, y = GAME_OVER_HEIGHT * GRID_SIZE, width = None, height = None, color = RED):
+    def draw_rectangle(self, screen, x = None, y = GAME_OVER_HEIGHT * GRID_SIZE, width = None, height = None, color = DARK_GRAY):
         if x is None:
             x = self.width * GRID_SIZE
         if width is None:
@@ -256,6 +292,7 @@ class LiteTetrisBoard(TetrisBoard):
         
 
         self.draw_rectangle(screen)
+        super().draw_next_and_hold(screen)
 
 
 class RegularTetrisBoard(TetrisBoard):
@@ -267,7 +304,7 @@ class RegularTetrisBoard(TetrisBoard):
         super().__init__(width, height)
         
 
-    def draw_rectangle(self, screen, x = None, y = GAME_OVER_HEIGHT * GRID_SIZE, width = None, height = None, color = RED):
+    def draw_rectangle(self, screen, x = None, y = GAME_OVER_HEIGHT * GRID_SIZE, width = None, height = None, color = DARK_GRAY):
         if x is None:
             x = self.width * GRID_SIZE
         if width is None:
@@ -310,3 +347,4 @@ class RegularTetrisBoard(TetrisBoard):
                     pygame.draw.rect(screen, self.current_piece.color, ((outline.x + j) * GRID_SIZE, (outline.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1), width = 2)
         
         self.draw_rectangle(screen)
+        super().draw_next_and_hold(screen)
