@@ -1,5 +1,5 @@
 import pygame
-from constants import WIDTH, HEIGHT, GRID_SIZE, BLACK, SCORE_FILE
+from constants import WIDTH, HEIGHT, GRID_SIZE, BLACK, SCORE_FILE, SCREEN_WIDTH, SCREEN_HEIGHT
 from tetris_board import TetrisBoard, LiteTetrisBoard, RegularTetrisBoard
 from button import Button
 

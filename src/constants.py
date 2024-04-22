@@ -1,5 +1,7 @@
 # Screen dimensions
 WIDTH, HEIGHT = 450, 600
+SCREEN_WIDTH = WIDTH + 200
+SCREEN_HEIGHT = HEIGHT
 GRID_SIZE = 25
 GAME_OVER_HEIGHT = 4  # Number of rows from the top
 

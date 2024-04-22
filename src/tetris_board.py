@@ -194,6 +194,15 @@ class TetrisBoard:
                 if cell == 'O':
                     pygame.draw.rect(screen, self.current_piece.color, ((self.current_piece.x + j) * GRID_SIZE, (self.current_piece.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1))
 
+        # Draw outline
+        outline : Tetromino = Tetromino(self.current_piece.x, self.current_piece.y, self.current_piece.shape)
+        outline.rotation = self.current_piece.rotation
+        while (self.valid_move(outline, 0, 1, 0)):
+            outline.y += 1
+        for i, row in enumerate(outline.shape[outline.rotation % len(outline.shape)]):
+            for j, cell in enumerate(row):
+                if cell == 'O':
+                    pygame.draw.rect(screen, self.current_piece.color, ((outline.x + j) * GRID_SIZE, (outline.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1), width = 2)
 
 class LiteTetrisBoard(TetrisBoard):
     """
@@ -234,6 +243,16 @@ class LiteTetrisBoard(TetrisBoard):
             for j, cell in enumerate(row):
                 if cell == 'O':
                     pygame.draw.rect(screen, self.current_piece.color, ((self.current_piece.x + j) * GRID_SIZE, (self.current_piece.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1))
+
+        # Draw outline
+        outline : Tetromino = Tetromino(self.current_piece.x, self.current_piece.y, self.current_piece.shape)
+        outline.rotation = self.current_piece.rotation
+        while (self.valid_move(outline, 0, 1, 0)):
+            outline.y += 1
+        for i, row in enumerate(outline.shape[outline.rotation % len(outline.shape)]):
+            for j, cell in enumerate(row):
+                if cell == 'O':
+                    pygame.draw.rect(screen, self.current_piece.color, ((outline.x + j) * GRID_SIZE, (outline.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1), width = 2)
         
 
         self.draw_rectangle(screen)
@@ -259,6 +278,7 @@ class RegularTetrisBoard(TetrisBoard):
 
         pygame.draw.rect(screen, color, (x,y,width, height))
     
+    
     def draw(self, screen):
         """
         Draws the current game state to the screen, including the grid,
@@ -279,5 +299,14 @@ class RegularTetrisBoard(TetrisBoard):
                 if cell == 'O':
                     pygame.draw.rect(screen, self.current_piece.color, ((self.current_piece.x + j) * GRID_SIZE, (self.current_piece.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1))
         
-
+        # Draw outline
+        outline : Tetromino = Tetromino(self.current_piece.x, self.current_piece.y, self.current_piece.shape)
+        outline.rotation = self.current_piece.rotation
+        while (self.valid_move(outline, 0, 1, 0)):
+            outline.y += 1
+        for i, row in enumerate(outline.shape[outline.rotation % len(outline.shape)]):
+            for j, cell in enumerate(row):
+                if cell == 'O':
+                    pygame.draw.rect(screen, self.current_piece.color, ((outline.x + j) * GRID_SIZE, (outline.y + i) * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1), width = 2)
+        
         self.draw_rectangle(screen)
