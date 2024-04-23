@@ -19,7 +19,7 @@ class TetrisApp:
         self.running = True
         self.game = TetrisBoard(WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE)
         self.fall_time = 0
-        self.fall_speed = 100  # milliseconds
+        self.fall_speed = 55  # milliseconds
         self.highest_score = self.load_score()
         self.restart_button = Button(WIDTH - 110, 10, 100, 40, "Restart", (117, 113, 94))
         self.back_menu_button = Button(WIDTH - 270, 10, 150, 40, "Main Menu", (117, 113, 94))        
@@ -170,7 +170,7 @@ class TetrisApp:
         self.game = TetrisBoard(WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE)
         self.fall_time = 0
         self.show_menu = False
-        self.fall_speed = 100
+        # self.fall_speed = 75
 
     def lite_game(self):
         """
@@ -180,7 +180,7 @@ class TetrisApp:
         self.game = LiteTetrisBoard(int(2*WIDTH/4) // GRID_SIZE, HEIGHT // GRID_SIZE)
         self.fall_time = 0
         self.show_menu = False
-        self.fall_speed = 75
+        self.fall_speed = 100
 
     def regular_game(self):
         """
@@ -189,5 +189,5 @@ class TetrisApp:
         self.game = RegularTetrisBoard(int(2*WIDTH/3) // GRID_SIZE, HEIGHT // GRID_SIZE)
         self.fall_time = 0
         self.show_menu = False
-        self.fall_speed = 125
+        self.fall_speed = 100
 
